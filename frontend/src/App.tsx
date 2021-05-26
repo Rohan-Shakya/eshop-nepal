@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 // Components
 import HomePage from "./pages/HomePage";
+import ProductPage from "./pages/ProductPage";
 
 // Styles
 import "./bootstrap.min.css";
@@ -19,6 +20,7 @@ const App: React.FC = () => {
         <Container>
           <Switch>
             <Route exact path="/" component={HomePage} />
+            <Route exact path="/product/:id" component={ProductPage} />
           </Switch>
         </Container>
       </main>
