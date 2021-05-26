@@ -10,3 +10,17 @@ interface Product {
   rating: number;
   numReviews: number;
 }
+
+type ProductState = {
+  products: Product[];
+  product: Product | null;
+  loading: boolean;
+  error: string;
+};
+
+type ProductAction = {
+  type: string | any;
+  payload?: Product | string | Array | any;
+};
+
+type ProductDispatch = (args: ProductAction) => ProductState;
