@@ -1,14 +1,31 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { RouteComponentProps } from "react-router-dom";
 import { Row, Col, Image, ListGroup, Button, Card } from "react-bootstrap";
 import Rating from "../components/Rating";
-import products from "../products";
+import axios from "axios";
 
 const ProductPage = ({ match }: RouteComponentProps<{ id?: string }>) => {
-  const product: Product | any = products.find(
-    (product) => product._id === match.params.id
-  );
+  const [product, setProduct] = useState<Product>({
+    _id: "",
+    name: "",
+    image: "",
+    description: "",
+    brand: "",
+    category: "",
+    price: 0,
+    countInStock: 0,
+    rating: 0,
+    numReviews: 0,
+  });
+
+  useEffect(() => {
+    const getProduct = async () => {
+      const { data } = await axios.get(`/api/products/${match.params.id}`);
+      setProduct(data);
+    };
+    getProduct();
+  }, [match]);
 
   return (
     <div>
