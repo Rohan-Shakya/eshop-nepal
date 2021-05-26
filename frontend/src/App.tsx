@@ -1,14 +1,30 @@
 import React from "react";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import { Container } from "react-bootstrap";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+
+// Components
+import HomePage from "./pages/HomePage";
+
+// Styles
+import "./bootstrap.min.css";
 import "./App.css";
 
-function App() {
+const App: React.FC = () => {
   return (
-    <main>
-      <header>
-        <h1>Eshop Nepal</h1>
-      </header>
-    </main>
+    <Router>
+      <Header />
+      <main className="py-3">
+        <Container>
+          <Switch>
+            <Route exact path="/" component={HomePage} />
+          </Switch>
+        </Container>
+      </main>
+      <Footer />
+    </Router>
   );
-}
+};
 
 export default App;
