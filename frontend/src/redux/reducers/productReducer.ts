@@ -7,7 +7,7 @@ const initialState: ProductState = {
   error: "",
 };
 
-const productReducer = (state = initialState, action: ProductAction) => {
+const productReducer = (state = initialState, action: Action) => {
   const { type, payload } = action;
 
   switch (type) {

@@ -1,3 +1,9 @@
+type Action = {
+  type: string | any;
+  payload?: Product | string | Array | any;
+};
+
+// Products
 interface Product {
   _id: string;
   name: string;
@@ -18,9 +24,22 @@ type ProductState = {
   error: string;
 };
 
-type ProductAction = {
-  type: string | any;
-  payload?: Product | string | Array | any;
+type ProductDispatch = (args: ProductAction) => ProductState;
+
+// ================================================
+
+// Cart
+
+interface CartItem {
+  product: string;
+  name: string;
+  image: string;
+  price: number;
+  countInStock: number;
+  qty: string;
+}
+type CartState = {
+  cartItems: CartItem[];
 };
 
-type ProductDispatch = (args: ProductAction) => ProductState;
+type CartDispatch = (args: Action) => CartState;
