@@ -34,3 +34,16 @@ export const addToCart =
       });
     }
   };
+
+export const removeFromCart =
+  (id: string) => (dispatch: ProductDispatch, getState: () => RootState) => {
+    dispatch({
+      type: actionTypes.CART_REMOVE_ITEM,
+      payload: id,
+    });
+
+    localStorage.setItem(
+      "cartItems",
+      JSON.stringify(getState().cartState.cartItems)
+    );
+  };
