@@ -24,7 +24,7 @@ type ProductState = {
   error: string;
 };
 
-type ProductDispatch = (args: ProductAction) => ProductState;
+type ProductDispatch = (args: Action) => ProductState;
 
 // ================================================
 
@@ -43,3 +43,26 @@ type CartState = {
 };
 
 type CartDispatch = (args: Action) => CartState;
+
+// =================================================
+
+// User Login
+
+interface UserInfo {
+  refresh: string;
+  access: string;
+  id: number;
+  _id: number;
+  username: string;
+  name: string;
+  email: string;
+  isAdmin: boolean;
+  token?: string;
+}
+interface UserLoginState {
+  userInfo: UserInfo;
+  loading: boolean;
+  error: string;
+}
+
+type UserLoginDispatch = (args: Action) => UserLoginState;
