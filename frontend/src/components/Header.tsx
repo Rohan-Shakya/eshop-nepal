@@ -2,11 +2,11 @@ import React from "react";
 import { LinkContainer } from "react-router-bootstrap";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../redux/actions/userLoginAction";
+import { logout } from "../redux/actions/userAction";
 import { RootState } from "../redux/combineReducer";
 
 const Header: React.FC = () => {
-  const { userInfo } = useSelector((state: RootState) => state.userLogin);
+  const { userInfo } = useSelector((state: RootState) => state.userState);
   const dispatch = useDispatch();
 
   const logoutHandler = () => {

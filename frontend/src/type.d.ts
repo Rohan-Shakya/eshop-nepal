@@ -59,10 +59,10 @@ interface UserInfo {
   isAdmin: boolean;
   token?: string;
 }
-interface UserLoginState {
+interface UserState {
   userInfo: UserInfo;
   loading: boolean;
   error: string;
 }
 
-type UserLoginDispatch = (args: Action) => UserLoginState;
+type UserDispatch = (args: Action) => UserState;

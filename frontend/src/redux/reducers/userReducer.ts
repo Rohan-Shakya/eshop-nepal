@@ -10,16 +10,18 @@ const initialState = {
   error: "",
 };
 
-const UserLoginReducer = (state = initialState, action: Action) => {
+const UserReducer = (state = initialState, action: Action) => {
   const { type, payload } = action;
 
   switch (type) {
     case actionTypes.USER_LOGIN_REQUEST:
+    case actionTypes.USER_REGISTER_REQUEST:
       return {
         ...state,
         loading: true,
       };
     case actionTypes.USER_LOGIN_SUCCESS:
+    case actionTypes.USER_REGISTER_SUCCESS:
       return {
         ...state,
         userInfo: payload,
@@ -27,6 +29,7 @@ const UserLoginReducer = (state = initialState, action: Action) => {
         error: "",
       };
     case actionTypes.USER_LOGIN_FAIL:
+    case actionTypes.USER_REGISTER_FAIL:
       return {
         ...state,
         loading: false,
@@ -44,4 +47,4 @@ const UserLoginReducer = (state = initialState, action: Action) => {
   }
 };
 
-export default UserLoginReducer;
+export default UserReducer;
