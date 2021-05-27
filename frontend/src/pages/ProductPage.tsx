@@ -1,7 +1,15 @@
-import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useHistory } from "react-router-dom";
 import { RouteComponentProps } from "react-router-dom";
-import { Row, Col, Image, ListGroup, Button, Card } from "react-bootstrap";
+import {
+  Row,
+  Col,
+  Image,
+  ListGroup,
+  Form,
+  Button,
+  Card,
+} from "react-bootstrap";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import Rating from "../components/Rating";
@@ -10,14 +18,25 @@ import { useDispatch, useSelector } from "react-redux";
 import { listProductDetail } from "../redux/actions/productAction";
 
 const ProductPage = ({ match }: RouteComponentProps<{ id?: string }>) => {
+  const [qty, setQty] = useState<Number>(1);
   const dispatch = useDispatch();
   const { loading, product, error } = useSelector(
     (state: RootState) => state.productState
   );
+  const history = useHistory();
+
+  let numOfStock = [];
+  if (product && product.countInStock) {
+    for (let i = 1; i <= product.countInStock; i++) numOfStock.push(i);
+  }
 
   useEffect(() => {
     dispatch(listProductDetail(String(match.params.id)));
   }, [dispatch, match]);
+
+  const addToCartHandler = () => {
+    history.push(`/cart/${match.params.id}?qty=${qty}`);
+  };
 
   return (
     <div>
@@ -73,11 +92,33 @@ const ProductPage = ({ match }: RouteComponentProps<{ id?: string }>) => {
                     </Row>
                   </ListGroup.Item>
 
+                  {product.countInStock > 0 && (
+                    <ListGroup.Item>
+                      <Row>
+                        <Col>Qty</Col>
+                        <Col xs="auto" className="my-1">
+                          <Form.Control
+                            as="select"
+                            value={`${qty}`}
+                            onChange={(e) => setQty(Number(e.target.value))}
+                          >
+                            {numOfStock.map((x) => (
+                              <option key={x} value={x}>
+                                {x}
+                              </option>
+                            ))}
+                          </Form.Control>
+                        </Col>
+                      </Row>
+                    </ListGroup.Item>
+                  )}
+
                   <ListGroup.Item>
                     <Button
                       className="btn-block"
                       disabled={product.countInStock === 0}
                       type="button"
+                      onClick={addToCartHandler}
                     >
                       Add to Cart
                     </Button>
