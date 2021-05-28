@@ -69,11 +69,11 @@ interface UserInfo {
   isAdmin: boolean;
   token?: string;
 }
-interface UserState {
+type UserState = {
   userInfo: UserInfo;
   loading: boolean;
   error: string;
-}
+};
 
 type UserDispatch = (args: Action) => UserState;
 
@@ -87,10 +87,30 @@ interface UserDetails {
   isAdmin: boolean;
 }
 
-interface UserDetailsState {
+type UserDetailsState = {
   userDetails: UserDetails;
   loading: boolean;
   error: string;
-}
+};
 
 type UserDetailsDispatch = (args: Action) => UserDetailsState;
+
+// Order Create
+interface Order {
+  orderItems: CartItem[] | [];
+  shippingAddress: ShippingAddress;
+  paymentMethod: string;
+  itemsPrice: string;
+  shippingPrice: string;
+  taxPrice: string;
+  totalPrice: string;
+}
+
+type OrderCreateState = {
+  loading: boolean;
+  success: boolean;
+  order: Order[] | [] | null;
+  error: string;
+};
+
+type OrderCreateDispatch = (args: Action) => OrderCreateState;

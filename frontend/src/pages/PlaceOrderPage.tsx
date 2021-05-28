@@ -7,10 +7,14 @@ import Message from "../components/Message";
 import CheckoutSteps from "../components/CheckoutSteps";
 import { actionTypes } from "../redux/actionTypes";
 import { RootState } from "../redux/combineReducer";
+import { createOrder } from "../redux/actions/orderCreateAction";
 
 const PlaceOrderPage = ({ history }: RouteComponentProps) => {
   const dispatch = useDispatch();
   const cart = useSelector((state: RootState) => state.cartState);
+  const { success, order, error } = useSelector(
+    (state: RootState) => state.orderCreateState
+  );
 
   let cartItems: CartItem | any = cart.cartItems;
 
@@ -42,9 +46,19 @@ const PlaceOrderPage = ({ history }: RouteComponentProps) => {
     totalPrice,
   };
 
+  if (!cart.paymentMethod) {
+    history.push("/payment");
+  }
+
+  useEffect(() => {
+    if (success) {
+      history.push(`/order/${order._id}`);
+      dispatch({ type: actionTypes.ORDER_CREATE_RESET });
+    }
+  }, [success, history]);
+
   const placeOrder = () => {
-    console.log(orderData);
-    // dispatch(createOrder(orderData));
+    dispatch(createOrder(orderData));
   };
 
   return (
@@ -135,9 +149,9 @@ const PlaceOrderPage = ({ history }: RouteComponentProps) => {
                 <Col>${totalPrice}</Col>
               </Row>
             </ListGroup.Item>
-            {/* <ListGroup.Item>
+            <ListGroup.Item>
               {error && <Message variant="danger">{error}</Message>}
-            </ListGroup.Item> */}
+            </ListGroup.Item>
             <ListGroup.Item>
               <Button
                 type="button"
