@@ -38,8 +38,18 @@ interface CartItem {
   countInStock: number;
   qty: string;
 }
+
+interface ShippingAddress {
+  address: string;
+  city: string;
+  postalCode: string;
+  country: string;
+}
+
 type CartState = {
   cartItems: CartItem[];
+  shippingAddress: ShippingAddress;
+  paymentMethod: string;
 };
 
 type CartDispatch = (args: Action) => CartState;

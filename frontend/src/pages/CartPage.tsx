@@ -24,6 +24,8 @@ const CartPage = ({
   const { cartItems } = useSelector((state: RootState) => state.cartState);
   const dispatch = useDispatch();
 
+  let cartItem: CartItem | any = cartItems;
+
   useEffect(() => {
     if (productId) {
       dispatch(addToCart(productId, qty));
@@ -48,7 +50,7 @@ const CartPage = ({
           </Message>
         ) : (
           <ListGroup variant="flush">
-            {cartItems.map((item) => {
+            {cartItems.map((item: CartItem) => {
               let numOfStock = [];
               if (item && item.countInStock) {
                 for (let i = 1; i <= item.countInStock; i++) numOfStock.push(i);
@@ -102,12 +104,20 @@ const CartPage = ({
           <ListGroup variant="flush">
             <ListGroup.Item>
               <h2>
-                Subtotal({cartItems.reduce((acc, item) => acc + item.qty, 0)})
-                items
+                Subtotal (
+                {cartItem.reduce(
+                  (acc: number, item: CartItem) => acc + item.qty,
+                  0
+                )}
+                ) items
               </h2>
               $
-              {cartItems
-                .reduce((acc, item) => acc + item.qty * item.price, 0)
+              {cartItem
+                .reduce(
+                  (acc: number, item: CartItem) =>
+                    Number(acc) + Number(item.qty) * item.price,
+                  0
+                )
                 .toFixed(2)}
             </ListGroup.Item>
             <ListGroup.Item>
