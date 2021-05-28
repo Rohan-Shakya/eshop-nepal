@@ -13,6 +13,7 @@ import RegisterPage from "./pages/RegisterPage";
 import ProfilePage from "./pages/ProfilePage";
 import ShippingPage from "./pages/ShippingPage";
 import PaymentPage from "./pages/PaymentPage";
+import PlaceOrderPage from "./pages/PlaceOrderPage";
 
 // Styles
 import "./bootstrap.min.css";
@@ -33,6 +34,7 @@ const App: React.FC = () => {
             <Route exact path="/profile" component={ProfilePage} />
             <Route exact path="/shipping" component={ShippingPage} />
             <Route exact path="/payment" component={PaymentPage} />
+            <Route exact path="/placeorder" component={PlaceOrderPage} />
           </Switch>
         </Container>
       </main>
