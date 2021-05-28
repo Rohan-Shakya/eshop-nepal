@@ -10,6 +10,7 @@ import ProductPage from "./pages/ProductPage";
 import CartPage from "./pages/CartPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+import ProfilePage from "./pages/ProfilePage";
 
 // Styles
 import "./bootstrap.min.css";
@@ -27,6 +28,7 @@ const App: React.FC = () => {
             <Route exact path="/cart/:id?" component={CartPage} />
             <Route exact path="/login" component={LoginPage} />
             <Route exact path="/register" component={RegisterPage} />
+            <Route exact path="/profile" component={ProfilePage} />
           </Switch>
         </Container>
       </main>

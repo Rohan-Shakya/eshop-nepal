@@ -46,7 +46,7 @@ type CartDispatch = (args: Action) => CartState;
 
 // =================================================
 
-// User Login
+// User Auth
 
 interface UserInfo {
   refresh: string;
@@ -66,3 +66,21 @@ interface UserState {
 }
 
 type UserDispatch = (args: Action) => UserState;
+
+// User Details
+interface UserDetails {
+  id: number;
+  _id: number;
+  username: string;
+  name: string;
+  email: string;
+  isAdmin: boolean;
+}
+
+interface UserDetailsState {
+  userDetails: UserDetails;
+  loading: boolean;
+  error: string;
+}
+
+type UserDetailsDispatch = (args: Action) => UserDetailsState;
