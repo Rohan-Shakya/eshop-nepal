@@ -69,6 +69,7 @@ interface UserInfo {
   isAdmin: boolean;
   token?: string;
 }
+
 type UserState = {
   userInfo: UserInfo;
   loading: boolean;
@@ -181,3 +182,39 @@ type OrderListState = {
 };
 
 type OrderListDispatch = (args: Action) => OrderListState;
+
+// =================================================
+
+// Users List
+
+interface User {
+  _id: 1;
+  orderItems: OrderItems[];
+  shippingAddress: {
+    _id: number;
+    address: string;
+    city: string;
+    postalCode: string;
+    country: string;
+    shippingPrice: string | null;
+    order: number;
+  };
+  user: UserDetails;
+  paymentMethod: string;
+  taxPrice: string;
+  shippingPrice: string;
+  totalPrice: string;
+  isPaid: boolean;
+  paidAt: string | null;
+  isDelivered: boolean;
+  deliveredAt: string | null;
+  createdAt: string;
+}
+
+type UserListState = {
+  loading: boolean;
+  users: User[] | [];
+  error: string;
+};
+
+type UserListDispatch = (args: Action) => UserListState;
