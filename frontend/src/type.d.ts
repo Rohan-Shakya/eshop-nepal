@@ -155,9 +155,9 @@ interface OrderDetail {
   shippingPrice: string;
   totalPrice: string;
   isPaid: boolean;
-  paidAt: boolean | null;
+  paidAt: string | null;
   isDelivered: boolean;
-  deliveredAt: boolean | null;
+  deliveredAt: string | null;
   createdAt: string;
 }
 
@@ -169,3 +169,15 @@ type OrderDetailsState = {
 };
 
 type OrderDetailsDispatch = (args: Action) => OrderDetailsState;
+
+// =============================================
+
+// User All Order List
+
+type OrderListState = {
+  loading: boolean;
+  orders: OrderDetail[] | [];
+  error: string;
+};
+
+type OrderListDispatch = (args: Action) => OrderListState;

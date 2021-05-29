@@ -5,6 +5,7 @@ import userDetailsReducer from "./reducers/userDetailsReducer";
 import UserReducer from "./reducers/userReducer";
 import orderCreateReducer from "./reducers/orderCreateReducer";
 import orderDetailsReducer from "./reducers/orderDetailsReducer";
+import orderListReducer from "./reducers/orderListReducer";
 
 const combinedReducers = combineReducers({
   productState: productReducer,
@@ -13,6 +14,7 @@ const combinedReducers = combineReducers({
   userDetailsState: userDetailsReducer,
   orderCreateState: orderCreateReducer,
   orderDetailsState: orderDetailsReducer,
+  orderListState: orderListReducer,
 });
 
 export type RootState = ReturnType<typeof combinedReducers>;
