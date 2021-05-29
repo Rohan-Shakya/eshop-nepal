@@ -8,15 +8,26 @@ import orderDetailsReducer from "./reducers/orderDetailsReducer";
 import orderListReducer from "./reducers/orderListReducer";
 import userListReducer from "./reducers/userListReducer";
 import userUpdateReducer from "./reducers/userUpdateReducer";
+import productDeleteReducer from "./reducers/productDeleteReducer";
 
 const combinedReducers = combineReducers({
+  // Products
   productState: productReducer,
+  productDeleteState: productDeleteReducer,
+
+  // Cart
   cartState: cartReducer,
+
+  // User
   userState: UserReducer,
   userDetailsState: userDetailsReducer,
+
+  // Orders
   orderCreateState: orderCreateReducer,
   orderDetailsState: orderDetailsReducer,
   orderListState: orderListReducer,
+
+  // Users
   userListState: userListReducer,
   userUpdateState: userUpdateReducer,
 });
