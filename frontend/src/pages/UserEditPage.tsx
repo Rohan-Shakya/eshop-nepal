@@ -7,6 +7,8 @@ import Loader from "../components/Loader";
 import FormContainer from "../components/FormContainer";
 import { RootState } from "../redux/combineReducer";
 import { getUserDetails } from "../redux/actions/userDetailsAction";
+import { actionTypes } from "../redux/actionTypes";
+import { updateUser } from "../redux/actions/userUpdateAction";
 
 const UserEditPage = ({
   match,
@@ -23,18 +25,30 @@ const UserEditPage = ({
     (state: RootState) => state.userDetailsState
   );
 
+  const {
+    error: errorUpdate,
+    loading: loadingUpdate,
+    success: successUpdate,
+  } = useSelector((state: RootState) => state.userUpdateState);
+
   useEffect(() => {
-    if (!userDetails.name || userDetails._id !== Number(userId)) {
-      dispatch(getUserDetails(userId));
+    if (successUpdate) {
+      dispatch({ type: actionTypes.USER_UPDATE_RESET });
+      history.push("/admin/userslist");
     } else {
-      setName(userDetails.name);
-      setEmail(userDetails.email);
-      setIsAdmin(userDetails.isAdmin);
+      if (!userDetails.name || userDetails._id !== Number(userId)) {
+        dispatch(getUserDetails(userId));
+      } else {
+        setName(userDetails.name);
+        setEmail(userDetails.email);
+        setIsAdmin(userDetails.isAdmin);
+      }
     }
-  }, [dispatch, userDetails, userId]);
+  }, [dispatch, userDetails, userId, successUpdate, history]);
 
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
+    dispatch(updateUser({ _id: userDetails._id, name, email, isAdmin }));
   };
 
   return (
@@ -42,6 +56,8 @@ const UserEditPage = ({
       <Link to="/admin/userslist">Go Back</Link>
       <FormContainer>
         <h1>Edit User</h1>
+        {loadingUpdate && <Loader />}
+        {errorUpdate && <Message variant="danger">{errorUpdate}</Message>}
         {loading ? (
           <Loader />
         ) : error ? (
