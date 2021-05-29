@@ -163,7 +163,7 @@ interface OrderDetail {
 
 type OrderDetailsState = {
   loading: boolean;
-  success: boolean;
+  paid: boolean;
   orderDetails: OrderDetail | null;
   error: string;
 };

@@ -2,9 +2,9 @@ import { actionTypes } from "../actionTypes";
 
 const initialState: OrderDetailsState = {
   loading: false,
-  success: false,
   orderDetails: null,
   error: "",
+  paid: false,
 };
 
 const orderDetailsReducer = (state = initialState, action: Action) => {
@@ -12,6 +12,7 @@ const orderDetailsReducer = (state = initialState, action: Action) => {
 
   switch (type) {
     case actionTypes.ORDER_DETAILS_REQUEST:
+    case actionTypes.ORDER_PAY_REQUEST:
       return {
         ...state,
         loading: true,
@@ -20,15 +21,26 @@ const orderDetailsReducer = (state = initialState, action: Action) => {
       return {
         ...state,
         loading: false,
-        success: true,
         orderDetails: payload,
       };
+    case actionTypes.ORDER_PAY_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        paid: true,
+      };
+    case actionTypes.ORDER_PAY_RESET:
+      return {
+        ...state,
+        paid: false,
+        loading: false,
+      };
+    case actionTypes.ORDER_PAY_FAIL:
     case actionTypes.ORDER_DETAILS_FAIL:
       return {
         ...state,
         loading: false,
         error: payload,
-        success: false,
       };
     default:
       return state;

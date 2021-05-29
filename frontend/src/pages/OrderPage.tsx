@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { Row, Col, ListGroup, Image } from "react-bootstrap";
+import React, { useEffect } from "react";
+import { Row, Col, ListGroup, Image, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, RouteComponentProps } from "react-router-dom";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { actionTypes } from "../redux/actionTypes";
-import { getOrderDetails } from "../redux/actions/orderDetailsAction";
+import { getOrderDetails, payOrder } from "../redux/actions/orderDetailsAction";
 import { RootState } from "../redux/combineReducer";
 
-const OrderPage = ({ match }: RouteComponentProps<{ id?: string }>) => {
-  const orderId = match.params.id;
+const OrderPage = ({ match }: RouteComponentProps<{ id: string }>) => {
+  const orderId: string = match.params.id;
   const dispatch = useDispatch();
 
-  const { orderDetails, success, loading, error } = useSelector(
+  const { orderDetails, paid, loading, error } = useSelector(
     (state: RootState) => state.orderDetailsState
   );
 
@@ -21,7 +21,13 @@ const OrderPage = ({ match }: RouteComponentProps<{ id?: string }>) => {
       dispatch({ type: actionTypes.ORDER_CREATE_RESET });
       orderId && dispatch(getOrderDetails(orderId));
     }
-  }, [dispatch, orderDetails, orderId, success]);
+  }, [dispatch, orderDetails, orderId]);
+
+  useEffect(() => {
+    if (paid && !orderDetails.isPaid) {
+      dispatch(getOrderDetails(orderId));
+    }
+  }, [dispatch, orderDetails, paid, orderId]);
 
   let itemsPrice = 0;
   if (!loading && !error && orderDetails) {
@@ -33,11 +39,15 @@ const OrderPage = ({ match }: RouteComponentProps<{ id?: string }>) => {
       .toFixed(2);
   }
 
-  return loading ? (
+  const PaymentHandler = () => {
+    console.log(orderId);
+
+    dispatch(payOrder(orderId));
+  };
+
+  return !orderDetails || loading ? (
     <Loader />
   ) : error ? (
-    <Message variant="danger">{error}</Message>
-  ) : !orderDetails ? (
     <Message variant="danger">{error}</Message>
   ) : (
     <div>
@@ -84,7 +94,7 @@ const OrderPage = ({ match }: RouteComponentProps<{ id?: string }>) => {
                 <strong>Shipping: </strong>
                 {orderDetails.paymentMethod}
               </p>
-              {orderDetails.isPaid ? (
+              {paid ? (
                 <Message variant="success">
                   Paid on {orderDetails.paidAt}
                 </Message>
@@ -157,6 +167,14 @@ const OrderPage = ({ match }: RouteComponentProps<{ id?: string }>) => {
                 <Col>${orderDetails.totalPrice}</Col>
               </Row>
             </ListGroup.Item>
+            {!paid && (
+              <ListGroup.Item className="my-2">
+                {loading && <Loader />}
+                <Button variant="primary" onClick={PaymentHandler}>
+                  Confirm & Pay
+                </Button>
+              </ListGroup.Item>
+            )}
           </ListGroup>
         </Col>
       </Row>

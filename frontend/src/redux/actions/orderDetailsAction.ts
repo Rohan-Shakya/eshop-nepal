@@ -34,3 +34,36 @@ export const getOrderDetails =
       });
     }
   };
+
+export const payOrder =
+  (id: string) =>
+  async (dispatch: OrderDetailsDispatch, getState: () => RootState) => {
+    try {
+      dispatch({
+        type: actionTypes.ORDER_PAY_REQUEST,
+      });
+
+      const {
+        userState: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      await axios.put(`/api/orders/${id}/pay/`, {}, config);
+
+      dispatch({ type: actionTypes.ORDER_PAY_SUCCESS });
+    } catch (error) {
+      dispatch({
+        type: actionTypes.ORDER_PAY_FAIL,
+        payload:
+          error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message,
+      });
+    }
+  };
