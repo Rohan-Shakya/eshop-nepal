@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { LinkContainer } from "react-router-bootstrap";
 import { Table, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { listUsers } from "../redux/actions/userListAction";
+import { listUsers, deleteUser } from "../redux/actions/userListAction";
 import { RouteComponentProps } from "react-router-dom";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
@@ -23,9 +23,10 @@ const UserListPage = ({ history }: RouteComponentProps) => {
     }
   }, [dispatch, history, userInfo]);
 
-  const deleteHandler = (id: number) => {
+  const deleteHandler = async (id: number) => {
     if (window.confirm("Are you sure want to delete this user?")) {
-      console.log(id);
+      await dispatch(deleteUser(id));
+      await dispatch(listUsers());
     }
   };
 

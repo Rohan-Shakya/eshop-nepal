@@ -11,6 +11,7 @@ const userListReducer = (state = initialState, action: Action) => {
 
   switch (type) {
     case actionTypes.USER_LIST_REQUEST:
+    case actionTypes.USER_DELETE_REQUEST:
       return {
         ...state,
         loading: true,
@@ -28,7 +29,15 @@ const userListReducer = (state = initialState, action: Action) => {
         users: [],
         loading: false,
       };
+    case actionTypes.USER_DELETE_SUCCESS:
+      const filteredUsers = state.users.filter((user) => user._id !== payload);
+      return {
+        ...state,
+        loading: false,
+        users: filteredUsers,
+      };
     case actionTypes.USER_DETAILS_FAIL:
+    case actionTypes.USER_DELETE_FAIL:
       return {
         ...state,
         loading: false,

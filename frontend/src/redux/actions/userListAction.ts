@@ -31,3 +31,34 @@ export const listUsers =
       });
     }
   };
+
+export const deleteUser =
+  (id: number) =>
+  async (dispatch: UserListDispatch, getState: () => RootState) => {
+    try {
+      dispatch({ type: actionTypes.USER_DELETE_REQUEST });
+
+      const {
+        userState: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      await axios.delete(`/api/users/delete/${id}`, config);
+
+      dispatch({ type: actionTypes.USER_DELETE_SUCCESS });
+    } catch (error) {
+      dispatch({
+        type: actionTypes.USER_DETAILS_FAIL,
+        payload:
+          error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message,
+      });
+    }
+  };
