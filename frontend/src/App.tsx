@@ -16,6 +16,7 @@ import PaymentPage from "./pages/PaymentPage";
 import PlaceOrderPage from "./pages/PlaceOrderPage";
 import OrderPage from "./pages/OrderPage";
 import UserListPage from "./pages/UserListPage";
+import UserEditPage from "./pages/UserEditPage";
 
 // Styles
 import "./bootstrap.min.css";
@@ -39,6 +40,7 @@ const App: React.FC = () => {
             <Route exact path="/placeorder" component={PlaceOrderPage} />
             <Route exact path="/order/:id" component={OrderPage} />
             <Route exact path="/admin/userslist" component={UserListPage} />
+            <Route exact path="/admin/user/:id/edit" component={UserEditPage} />
           </Switch>
         </Container>
       </main>

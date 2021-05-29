@@ -36,7 +36,11 @@ const ProfilePage = ({ history }: RouteComponentProps) => {
     if (!userInfo) {
       history.push("/login");
     } else {
-      if (!userDetails || !userDetails.name) {
+      if (
+        !userDetails ||
+        !userDetails.name ||
+        userInfo._id !== userDetails._id
+      ) {
         dispatch(getUserDetails("profile"));
         dispatch(listMyOrders());
       } else {
