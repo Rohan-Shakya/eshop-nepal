@@ -55,7 +55,9 @@ const PlaceOrderPage = ({ history }: RouteComponentProps) => {
       history.push(`/order/${order._id}`);
       dispatch({ type: actionTypes.ORDER_CREATE_RESET });
     }
-  }, [success, history]);
+
+    // eslint-disable-next-line
+  }, [success, history, dispatch]);
 
   const placeOrder = () => {
     dispatch(createOrder(orderData));

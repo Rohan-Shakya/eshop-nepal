@@ -14,6 +14,7 @@ import ProfilePage from "./pages/ProfilePage";
 import ShippingPage from "./pages/ShippingPage";
 import PaymentPage from "./pages/PaymentPage";
 import PlaceOrderPage from "./pages/PlaceOrderPage";
+import OrderPage from "./pages/OrderPage";
 
 // Styles
 import "./bootstrap.min.css";
@@ -28,13 +29,14 @@ const App: React.FC = () => {
           <Switch>
             <Route exact path="/" component={HomePage} />
             <Route exact path="/product/:id" component={ProductPage} />
-            <Route exact path="/cart/:id?" component={CartPage} />
+            <Route path="/cart/:id?" component={CartPage} />
             <Route exact path="/login" component={LoginPage} />
             <Route exact path="/register" component={RegisterPage} />
             <Route exact path="/profile" component={ProfilePage} />
             <Route exact path="/shipping" component={ShippingPage} />
             <Route exact path="/payment" component={PaymentPage} />
             <Route exact path="/placeorder" component={PlaceOrderPage} />
+            <Route exact path="/order/:id" component={OrderPage} />
           </Switch>
         </Container>
       </main>

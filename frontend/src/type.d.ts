@@ -77,6 +77,8 @@ type UserState = {
 
 type UserDispatch = (args: Action) => UserState;
 
+// =======================================================
+
 // User Details
 interface UserDetails {
   id: number;
@@ -94,6 +96,8 @@ type UserDetailsState = {
 };
 
 type UserDetailsDispatch = (args: Action) => UserDetailsState;
+
+// =================================
 
 // Order Create
 interface Order {
@@ -114,3 +118,54 @@ type OrderCreateState = {
 };
 
 type OrderCreateDispatch = (args: Action) => OrderCreateState;
+
+// ============================================
+
+interface OrderItems {
+  _id: number;
+  name: string;
+  qty: number;
+  price: string;
+  image: string;
+  product: number;
+  order: number;
+}
+interface OrderDetail {
+  _id: number;
+  orderItems: OrderItems[] | [];
+  shippingAddress: {
+    _id: number;
+    address: string;
+    city: string;
+    postalCode: string;
+    country: string;
+    shippingPrice: string | null;
+    order: number;
+  };
+  user: {
+    id: number;
+    _id: number;
+    username: string;
+    name: string;
+    email: string;
+    isAdmin: boolean;
+  };
+  paymentMethod: string;
+  taxPrice: string;
+  shippingPrice: string;
+  totalPrice: string;
+  isPaid: boolean;
+  paidAt: boolean | null;
+  isDelivered: boolean;
+  deliveredAt: boolean | null;
+  createdAt: string;
+}
+
+type OrderDetailsState = {
+  loading: boolean;
+  success: boolean;
+  orderDetails: OrderDetail | null;
+  error: string;
+};
+
+type OrderDetailsDispatch = (args: Action) => OrderDetailsState;
