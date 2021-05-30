@@ -6,6 +6,7 @@ import UserReducer from "./reducers/userReducer";
 import orderCreateReducer from "./reducers/orderCreateReducer";
 import orderDetailsReducer from "./reducers/orderDetailsReducer";
 import orderListReducer from "./reducers/orderListReducer";
+import allOrderListReducer from "./reducers/allOrderListReducer";
 import userListReducer from "./reducers/userListReducer";
 import userUpdateReducer from "./reducers/userUpdateReducer";
 import productDeleteReducer from "./reducers/productDeleteReducer";
@@ -30,6 +31,7 @@ const combinedReducers = combineReducers({
   orderCreateState: orderCreateReducer,
   orderDetailsState: orderDetailsReducer,
   orderListState: orderListReducer,
+  allOrderListState: allOrderListReducer,
 
   // Users
   userListState: userListReducer,
