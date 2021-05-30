@@ -7,8 +7,9 @@ import Loader from "../components/Loader";
 import { actionTypes } from "../redux/actionTypes";
 import { getOrderDetails, payOrder } from "../redux/actions/orderDetailsAction";
 import { RootState } from "../redux/combineReducer";
+import { deliverOrder } from "../redux/actions/orderDeliveredAction";
 
-const OrderPage = ({ match }: RouteComponentProps<{ id: string }>) => {
+const OrderPage = ({ match, history }: RouteComponentProps<{ id: string }>) => {
   const orderId: string = match.params.id;
   const dispatch = useDispatch();
 
@@ -16,12 +17,25 @@ const OrderPage = ({ match }: RouteComponentProps<{ id: string }>) => {
     (state: RootState) => state.orderDetailsState
   );
 
+  const { userInfo } = useSelector((state: RootState) => state.userState);
+  const { success: successDeliver, loading: loadingDeliver } = useSelector(
+    (state: RootState) => state.orderDeliveredState
+  );
+
   useEffect(() => {
-    if (!orderDetails || Number(orderDetails._id) !== Number(orderId)) {
+    if (!userInfo) {
+      history.push("/login");
+    }
+    if (
+      !orderDetails ||
+      Number(orderDetails._id) !== Number(orderId) ||
+      successDeliver
+    ) {
       dispatch({ type: actionTypes.ORDER_CREATE_RESET });
+      dispatch({ type: actionTypes.ORDER_DELIVER_RESET });
       orderId && dispatch(getOrderDetails(orderId));
     }
-  }, [dispatch, orderDetails, orderId]);
+  }, [dispatch, orderDetails, orderId, history, userInfo, successDeliver]);
 
   useEffect(() => {
     if (paid && !orderDetails.isPaid) {
@@ -40,21 +54,23 @@ const OrderPage = ({ match }: RouteComponentProps<{ id: string }>) => {
   }
 
   const PaymentHandler = () => {
-    console.log(orderId);
-
     dispatch(payOrder(orderId));
+  };
+
+  const deliverHandler = () => {
+    dispatch(deliverOrder(orderDetails));
   };
 
   return !orderDetails || loading ? (
     <Loader />
   ) : error ? (
-    <Message variant="danger">{error}</Message>
+    <Message variant='danger'>{error}</Message>
   ) : (
     <div>
       <h1>Order: {orderDetails._id}</h1>
       <Row>
         <Col md={8}>
-          <ListGroup variant="flush">
+          <ListGroup variant='flush'>
             {orderDetails.shippingAddress && (
               <ListGroup.Item>
                 <h2>Shipping</h2>
@@ -80,11 +96,11 @@ const OrderPage = ({ match }: RouteComponentProps<{ id: string }>) => {
                 </a>
               </p>
               {orderDetails.isDelivered ? (
-                <Message variant="success">
+                <Message variant='success'>
                   Delivered on {orderDetails.deliveredAt}
                 </Message>
               ) : (
-                <Message variant="warning">Not DeliveredAt </Message>
+                <Message variant='warning'>Not DeliveredAt </Message>
               )}
             </ListGroup.Item>
 
@@ -95,19 +111,19 @@ const OrderPage = ({ match }: RouteComponentProps<{ id: string }>) => {
                 {orderDetails.paymentMethod}
               </p>
               {paid ? (
-                <Message variant="success">
+                <Message variant='success'>
                   Paid on {orderDetails.paidAt}
                 </Message>
               ) : (
-                <Message variant="warning">Not Paid </Message>
+                <Message variant='warning'>Not Paid </Message>
               )}
             </ListGroup.Item>
             <ListGroup.Item>
               <h2>Order Items</h2>
               {orderDetails.length === 0 ? (
-                <Message variant="info">Order is empty</Message>
+                <Message variant='info'>Order is empty</Message>
               ) : (
-                <ListGroup variant="flush">
+                <ListGroup variant='flush'>
                   {orderDetails.orderItems.map(
                     (item: OrderItems, index: number) => (
                       <ListGroup.Item key={index}>
@@ -139,7 +155,7 @@ const OrderPage = ({ match }: RouteComponentProps<{ id: string }>) => {
           </ListGroup>
         </Col>
         <Col md={4}>
-          <ListGroup variant="flush">
+          <ListGroup variant='flush'>
             <ListGroup.Item>
               <h2>Order Summary</h2>
             </ListGroup.Item>
@@ -168,14 +184,29 @@ const OrderPage = ({ match }: RouteComponentProps<{ id: string }>) => {
               </Row>
             </ListGroup.Item>
             {!paid && (
-              <ListGroup.Item className="my-2">
+              <ListGroup.Item className='my-2'>
                 {loading && <Loader />}
-                <Button variant="primary" onClick={PaymentHandler}>
+                <Button variant='primary' onClick={PaymentHandler}>
                   Confirm & Pay
                 </Button>
               </ListGroup.Item>
             )}
           </ListGroup>
+          {loadingDeliver && <Loader />}
+          {userInfo &&
+            userInfo.isAdmin &&
+            orderDetails.isPaid &&
+            !orderDetails.isDelivered && (
+              <ListGroup.Item>
+                <Button
+                  type='button'
+                  className='btn btn-block'
+                  onClick={deliverHandler}
+                >
+                  Mark Ad Delivere
+                </Button>
+              </ListGroup.Item>
+            )}
         </Col>
       </Row>
     </div>
