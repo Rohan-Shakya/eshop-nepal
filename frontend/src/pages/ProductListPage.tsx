@@ -8,6 +8,8 @@ import Message from "../components/Message";
 import { RootState } from "../redux/combineReducer";
 import { deleteProduct } from "../redux/actions/productDeleteAction";
 import { listProducts } from "../redux/actions/productAction";
+import { createProduct } from "../redux/actions/productCreateAction";
+import { actionTypes } from "../redux/actionTypes";
 
 const ProductListPage = ({
   history,
@@ -19,6 +21,13 @@ const ProductListPage = ({
     (state: RootState) => state.productState
   );
 
+  const {
+    loading: loadingCreate,
+    error: errorCreate,
+    success: successCreate,
+    product,
+  } = useSelector((state: RootState) => state.productCreateState);
+
   const { userInfo } = useSelector((state: RootState) => state.userState);
 
   const {
@@ -28,12 +37,16 @@ const ProductListPage = ({
   } = useSelector((state: RootState) => state.productDeleteState);
 
   useEffect(() => {
-    if (userInfo && userInfo.isAdmin) {
+    dispatch({ type: actionTypes.PRODUCT_CREATE_RESET });
+
+    if (userInfo.isAdmin) {
       dispatch(listProducts());
-    } else {
-      history.push("/login");
     }
-  }, [dispatch, history, userInfo, successDelete]);
+
+    if (successCreate) {
+      history.push(`/admin/product/${product._id}/edit`);
+    }
+  }, [dispatch, history, userInfo, successCreate, successDelete, product]);
 
   const deleteHandler = (id: string) => {
     if (window.confirm("Are you sure you want to delete this product?")) {
@@ -42,7 +55,7 @@ const ProductListPage = ({
   };
 
   const createProductHandler = () => {
-    console.log("create");
+    dispatch(createProduct());
   };
 
   return (
@@ -61,6 +74,9 @@ const ProductListPage = ({
 
       {loadingDelete && <Loader />}
       {errorDelete && <Message variant="danger">{errorDelete}</Message>}
+
+      {loadingCreate && <Loader />}
+      {errorCreate && <Message variant="danger">{errorDelete}</Message>}
 
       {loading ? (
         <Loader />

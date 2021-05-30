@@ -17,11 +17,12 @@ import PlaceOrderPage from "./pages/PlaceOrderPage";
 import OrderPage from "./pages/OrderPage";
 import UserListPage from "./pages/UserListPage";
 import UserEditPage from "./pages/UserEditPage";
+import ProductListPage from "./pages/ProductListPage";
+import ProductEditScreen from "./pages/ProductEditScreen";
 
 // Styles
 import "./bootstrap.min.css";
 import "./App.css";
-import ProductListPage from "./pages/ProductListPage";
 
 const App: React.FC = () => {
   return (
@@ -46,6 +47,11 @@ const App: React.FC = () => {
               exact
               path="/admin/productslist"
               component={ProductListPage}
+            />
+            <Route
+              exact
+              path="/admin/product/:id/edit"
+              component={ProductEditScreen}
             />
           </Switch>
         </Container>
