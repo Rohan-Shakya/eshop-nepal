@@ -1,13 +1,13 @@
 import React from "react";
 
 interface Prop {
-  text: string;
+  text?: string;
   color: string;
   value: number;
 }
 const Rating: React.FC<Prop> = ({ text, color, value }) => {
   return (
-    <div className="rating">
+    <div className='rating'>
       <span>
         <i
           style={{ color }}

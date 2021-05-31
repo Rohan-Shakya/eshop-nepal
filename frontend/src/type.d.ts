@@ -218,3 +218,23 @@ type UserListState = {
 };
 
 type UserListDispatch = (args: Action) => UserListState;
+
+// ============================================
+
+interface Review {
+  _id: number;
+  name: string;
+  rating: number;
+  comment: string;
+  createdAt: string;
+  product: number;
+  user: number;
+}
+
+type createProductReviewState = {
+  loading: boolean;
+  success: boolean;
+  error: string;
+};
+
+type createProductReviewDispatch = (args: Action) => createProductReviewState;
