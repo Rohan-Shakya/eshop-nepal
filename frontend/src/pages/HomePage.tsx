@@ -6,16 +6,19 @@ import Message from "../components/Message";
 import Product from "../components/Product";
 import { listProducts } from "../redux/actions/productAction";
 import { RootState } from "../redux/combineReducer";
+import { RouteComponentProps } from "react-router-dom";
 
-const HomePage: React.FC = () => {
+const HomePage = ({ history }: RouteComponentProps) => {
   const dispatch = useDispatch();
   const { loading, products, error } = useSelector(
     (state: RootState) => state.productState
   );
 
+  let keyword = history.location.search;
+
   useEffect(() => {
-    dispatch(listProducts());
-  }, [dispatch]);
+    dispatch(listProducts(keyword));
+  }, [dispatch, keyword]);
 
   return (
     <div>
@@ -23,7 +26,7 @@ const HomePage: React.FC = () => {
       {loading ? (
         <Loader />
       ) : error ? (
-        <Message variant="danger">{error}</Message>
+        <Message variant='danger'>{error}</Message>
       ) : (
         <Row>
           {products.length === 0 ? (
