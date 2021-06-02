@@ -5,6 +5,7 @@ import { Table, Button, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
+import Paginate from "../components/Paginate";
 import { RootState } from "../redux/combineReducer";
 import { deleteProduct } from "../redux/actions/productDeleteAction";
 import { listProducts } from "../redux/actions/productAction";
@@ -17,7 +18,7 @@ const ProductListPage = ({
 }: RouteComponentProps<{ id: string }>) => {
   const dispatch = useDispatch();
 
-  const { loading, error, products } = useSelector(
+  const { loading, error, products, page, pages } = useSelector(
     (state: RootState) => state.productState
   );
 
@@ -36,17 +37,26 @@ const ProductListPage = ({
     success: successDelete,
   } = useSelector((state: RootState) => state.productDeleteState);
 
+  let keyword = history.location.search;
   useEffect(() => {
     dispatch({ type: actionTypes.PRODUCT_CREATE_RESET });
 
     if (userInfo.isAdmin) {
-      dispatch(listProducts());
+      dispatch(listProducts(keyword));
     }
 
     if (successCreate) {
       history.push(`/admin/product/${product._id}/edit`);
     }
-  }, [dispatch, history, userInfo, successCreate, successDelete, product]);
+  }, [
+    dispatch,
+    history,
+    userInfo,
+    keyword,
+    successCreate,
+    successDelete,
+    product,
+  ]);
 
   const deleteHandler = (id: string) => {
     if (window.confirm("Are you sure you want to delete this product?")) {
@@ -124,6 +134,7 @@ const ProductListPage = ({
               ))}
             </tbody>
           </Table>
+          <Paginate pages={pages} page={page} isAdmin={true} />
         </div>
       )}
     </div>

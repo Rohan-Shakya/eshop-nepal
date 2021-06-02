@@ -7,10 +7,11 @@ import Product from "../components/Product";
 import { listProducts } from "../redux/actions/productAction";
 import { RootState } from "../redux/combineReducer";
 import { RouteComponentProps } from "react-router-dom";
+import Paginate from "../components/Paginate";
 
 const HomePage = ({ history }: RouteComponentProps) => {
   const dispatch = useDispatch();
-  const { loading, products, error } = useSelector(
+  const { loading, products, error, page, pages } = useSelector(
     (state: RootState) => state.productState
   );
 
@@ -26,20 +27,23 @@ const HomePage = ({ history }: RouteComponentProps) => {
       {loading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>{error}</Message>
+        <Message variant="danger">{error}</Message>
       ) : (
-        <Row>
-          {products.length === 0 ? (
-            <h1>No Data</h1>
-          ) : (
-            products &&
-            products.map((product: Product) => (
-              <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
-                <Product product={product} />
-              </Col>
-            ))
-          )}
-        </Row>
+        <div>
+          <Row>
+            {products.length === 0 ? (
+              <h1>No Data</h1>
+            ) : (
+              products &&
+              products.map((product: Product) => (
+                <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
+                  <Product product={product} />
+                </Col>
+              ))
+            )}
+          </Row>
+          <Paginate page={page} pages={pages} keyword={keyword} />
+        </div>
       )}
     </div>
   );

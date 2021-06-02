@@ -20,6 +20,8 @@ interface Product {
 type ProductState = {
   products: Product[];
   product: Product | null;
+  page: number | string;
+  pages: number | string;
   loading: boolean;
   error: string;
 };

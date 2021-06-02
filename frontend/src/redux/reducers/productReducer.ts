@@ -2,6 +2,8 @@ import { actionTypes } from "../actionTypes";
 
 const initialState: ProductState = {
   products: [],
+  page: "",
+  pages: "",
   product: null,
   loading: false,
   error: "",
@@ -21,7 +23,9 @@ const productReducer = (state = initialState, action: Action) => {
       return {
         ...state,
         loading: false,
-        products: payload,
+        products: payload.products,
+        page: payload.page,
+        pages: payload.pages,
       };
     case actionTypes.PRODUCT_DETAILS_SUCCESS:
       return {
