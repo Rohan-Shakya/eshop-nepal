@@ -30,6 +30,30 @@ type ProductDispatch = (args: Action) => ProductState;
 
 // ================================================
 
+interface TopProducts {
+  _id: number;
+  reviews: Reviews[];
+  name: string;
+  image: string;
+  brand: string;
+  category: string;
+  description: string;
+  rating: string;
+  numReviews: number;
+  price: string;
+  countInStock: number;
+  createAt: string;
+  user: number;
+}
+
+type TopProductsState = {
+  products: TopProducts[];
+  loading: boolean;
+  error: string;
+};
+
+type TopProductsDispatch = (args: Action) => TopProductsState;
+
 // Cart
 
 interface CartItem {

@@ -8,6 +8,7 @@ import { listProducts } from "../redux/actions/productAction";
 import { RootState } from "../redux/combineReducer";
 import { RouteComponentProps } from "react-router-dom";
 import Paginate from "../components/Paginate";
+import ProductCarousel from "../components/ProductCarousel";
 
 const HomePage = ({ history }: RouteComponentProps) => {
   const dispatch = useDispatch();
@@ -23,6 +24,7 @@ const HomePage = ({ history }: RouteComponentProps) => {
 
   return (
     <div>
+      {!keyword && <ProductCarousel />}
       <h1>Latest Products</h1>
       {loading ? (
         <Loader />

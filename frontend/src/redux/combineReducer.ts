@@ -14,6 +14,7 @@ import productCreateReducer from "./reducers/productCreateReducer";
 import productUpdateReducer from "./reducers/productUpdateReducer";
 import orderDeliveredReducer from "./reducers/orderDeliveredReducer";
 import productReviewCreateReducer from "./reducers/productReviewCreateReducer";
+import productTopRatedReducers from "./reducers/productTopRatedReducer";
 
 const combinedReducers = combineReducers({
   // Products
@@ -22,6 +23,7 @@ const combinedReducers = combineReducers({
   productCreateState: productCreateReducer,
   productUpdateState: productUpdateReducer,
   productReviewCreateState: productReviewCreateReducer,
+  productTopRatedState: productTopRatedReducers,
 
   // Cart
   cartState: cartReducer,

@@ -37,3 +37,20 @@ export const listProductDetail =
       });
     }
   };
+
+export const listTopProducts = () => async (dispatch: TopProductsDispatch) => {
+  try {
+    dispatch({ type: actionTypes.PRODUCT_TOP_REQUEST });
+    const { data } = await axios.get(`/api/products/top/`);
+
+    dispatch({ type: actionTypes.PRODUCT_TOP_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: actionTypes.PRODUCT_TOP_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
